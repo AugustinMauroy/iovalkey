@@ -1,7 +1,8 @@
-import { createHash } from "crypto";
-import Command from "./Command";
+import { createHash } from "node:crypto";
 import asCallback from "standard-as-callback";
-import { Callback } from "./types";
+import Command from "./Command.ts";
+import type { Callback } from "./types.ts";
+
 export default class Script {
   private sha: string;
   private Command: new (...args: any[]) => Command;

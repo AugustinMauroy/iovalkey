@@ -1,5 +1,5 @@
-import { NetStream } from "../types";
-import { Debug } from "../utils";
+import { Debug } from "../utils/index.ts";
+import type { NetStream } from "../types.ts";
 
 const debug = Debug("AbstractConnector");
 

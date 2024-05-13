@@ -1,14 +1,14 @@
+import { EventEmitter } from "node:events";
 import { exists, hasFlag } from "@ioredis/commands";
-import { EventEmitter } from "events";
 import { AbortError, RedisError } from "redis-errors";
 import asCallback from "standard-as-callback";
-import Command from "../Command";
-import ClusterAllFailedError from "../errors/ClusterAllFailedError";
-import Pipeline from "../Pipeline";
-import Redis from "../Redis";
-import ScanStream from "../ScanStream";
-import { addTransactionSupport, Transaction } from "../transaction";
-import { Callback, ScanStreamOptions, WriteableStream } from "../types";
+import Command from "../Command.ts";
+import ClusterAllFailedError from "../errors/ClusterAllFailedError.ts";
+import Pipeline from "../Pipeline.ts";
+import Redis from "../Redis.ts";
+import ScanStream from "../ScanStream.ts";
+import { addTransactionSupport, Transaction } from "../transaction.ts";
+import type { Callback, ScanStreamOptions, WriteableStream } from "../types.ts";
 import {
   CONNECTION_CLOSED_ERROR_MSG,
   Debug,
@@ -18,13 +18,13 @@ import {
   shuffle,
   timeout,
   zipMap,
-} from "../utils";
-import applyMixin from "../utils/applyMixin";
-import Commander from "../utils/Commander";
-import { ClusterOptions, DEFAULT_CLUSTER_OPTIONS } from "./ClusterOptions";
-import ClusterSubscriber from "./ClusterSubscriber";
-import ConnectionPool from "./ConnectionPool";
-import DelayQueue from "./DelayQueue";
+} from "../utils/index.ts";
+import applyMixin from "../utils/applyMixin.ts";
+import Commander from "../utils/Commander.ts";
+import { ClusterOptions, DEFAULT_CLUSTER_OPTIONS } from "./ClusterOptions.ts";
+import ClusterSubscriber from "./ClusterSubscriber.ts";
+import ConnectionPool from "./ConnectionPool.ts";
+import DelayQueue from "./DelayQueue.ts";
 import {
   getConnectionName,
   getUniqueHostnamesFromOptions,
@@ -35,7 +35,7 @@ import {
   normalizeNodeOptions,
   RedisOptions,
   weightSrvRecords,
-} from "./util";
+} from "./util.ts";
 import Deque = require("denque");
 
 const debug = Debug("cluster");

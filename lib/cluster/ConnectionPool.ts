@@ -1,7 +1,7 @@
-import { EventEmitter } from "events";
-import { sample, Debug, noop, defaults } from "../utils";
-import { RedisOptions, getNodeKey, NodeKey, NodeRole } from "./util";
-import Redis from "../Redis";
+import { EventEmitter } from "node:events";
+import { sample, Debug, noop, defaults } from "../utils/index.ts";
+import { RedisOptions, getNodeKey, NodeKey, NodeRole } from "./util.ts";
+import Redis from "../Redis.ts";
 
 const debug = Debug("cluster:connectionPool");
 

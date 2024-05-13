@@ -1,7 +1,7 @@
-import { SrvRecord, resolveSrv, lookup } from "dns";
-import { RedisOptions } from "../redis/RedisOptions";
-import { CommanderOptions } from "../utils/Commander";
-import { NodeRole } from "./util";
+import { SrvRecord, resolveSrv, lookup } from "node:dns";
+import { RedisOptions } from "../redis/RedisOptions.ts";
+import { CommanderOptions } from "../utils/Commander.ts";
+import { NodeRole } from "./util.ts";
 
 export type DNSResolveSrvFunction = (
   hostname: string,

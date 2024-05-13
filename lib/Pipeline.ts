@@ -1,13 +1,13 @@
+import { deprecate } from "node:util";
 import * as calculateSlot from "cluster-key-slot";
 import { exists, hasFlag } from "@ioredis/commands";
 import asCallback from "standard-as-callback";
-import { deprecate } from "util";
-import Redis from "./Redis";
-import Cluster from "./cluster";
-import Command from "./Command";
-import { Callback, PipelineWriteableStream } from "./types";
-import { noop } from "./utils";
-import Commander from "./utils/Commander";
+import Redis from "./Redis.ts";
+import Cluster from "./cluster.ts";
+import Command from "./Command.ts";
+import { noop } from "./utils/index.ts";
+import Commander from "./utils/Commander.ts";
+import type { Callback, PipelineWriteableStream } from "./types.ts";
 
 /*
   This function derives from the cluster-key-slot implementation.

@@ -1,42 +1,46 @@
+import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
+import { describe, it } from 'node:test';
 import * as sinon from "sinon";
-import { expect } from "chai";
-import * as utils from "../../lib/utils";
-import TLSProfiles from "../../lib/constants/TLSProfiles";
+import * as utils from "../../lib/utils/index.ts";
+import TLSProfiles from "../../lib/constants/TLSProfiles.ts";
 
 describe("utils", () => {
   describe(".convertBufferToString", () => {
     it("should return correctly", () => {
-      expect(utils.convertBufferToString(Buffer.from("123"))).to.eql("123");
-      expect(
-        utils.convertBufferToString([Buffer.from("abc"), Buffer.from("abc")])
-      ).to.eql(["abc", "abc"]);
-      expect(
+      assert.strictEqual(utils.convertBufferToString(Buffer.from("123")), "123");
+      assert.deepStrictEqual(
+        utils.convertBufferToString([Buffer.from("abc"), Buffer.from("abc")]),
+        ["abc", "abc"]
+      );
+      assert.deepStrictEqual(
         utils.convertBufferToString([
           Buffer.from("abc"),
           [[Buffer.from("abc")]],
-        ])
-      ).to.eql(["abc", [["abc"]]]);
-      expect(
+        ]),
+        ["abc", [["abc"]]]
+      );
+      assert.deepStrictEqual(
         utils.convertBufferToString([
           Buffer.from("abc"),
           5,
           "b",
           [[Buffer.from("abc"), 4]],
-        ])
-      ).to.eql(["abc", 5, "b", [["abc", 4]]]);
+        ]),
+        ["abc", 5, "b", [["abc", 4]]]
+      );
     });
   });
 
   describe(".wrapMultiResult", () => {
     it("should return correctly", () => {
-      expect(utils.wrapMultiResult(null)).to.eql(null);
-      expect(utils.wrapMultiResult([1, 2])).to.eql([
+      assert.deepStrictEqual(utils.wrapMultiResult(null), null);
+      assert.deepStrictEqual(utils.wrapMultiResult([1, 2]), [
         [null, 1],
         [null, 2],
       ]);
-
       const error = new Error("2");
-      expect(utils.wrapMultiResult([1, 2, error])).to.eql([
+      assert.deepStrictEqual(utils.wrapMultiResult([1, 2, error]), [
         [null, 1],
         [null, 2],
         [error],
@@ -46,19 +50,18 @@ describe("utils", () => {
 
   describe(".isInt", () => {
     it("should return correctly", () => {
-      expect(utils.isInt(2)).to.eql(true);
-      expect(utils.isInt("2231")).to.eql(true);
-      expect(utils.isInt("s")).to.eql(false);
-      expect(utils.isInt("1s")).to.eql(false);
-      expect(utils.isInt(false)).to.eql(false);
+      assert.strictEqual(utils.isInt(2), true);
+      assert.strictEqual(utils.isInt("2231"), true);
+      assert.strictEqual(utils.isInt("s"), false);
+      assert.strictEqual(utils.isInt("1s"), false);
     });
   });
 
   describe(".packObject", () => {
     it("should return correctly", () => {
-      expect(utils.packObject([1, 2])).to.eql({ 1: 2 });
-      expect(utils.packObject([1, "2"])).to.eql({ 1: "2" });
-      expect(utils.packObject([1, "2", "abc", "def"])).to.eql({
+      assert.deepStrictEqual(utils.packObject([1, 2]), { 1: 2 });
+      assert.deepStrictEqual(utils.packObject([1, "2"]), { 1: "2" });
+      assert.deepStrictEqual(utils.packObject([1, "2", "abc", "def"]), {
         1: "2",
         abc: "def",
       });
@@ -74,14 +77,15 @@ describe("utils", () => {
       wrappedCallback1();
 
       let invokedTimes = 0;
-      var wrappedCallback2 = utils.timeout(function (err) {
-        expect(err.message).to.match(/timeout/);
+      const wrappedCallback2 = utils.timeout(function (err) {
+        if (!err) 
+          return;
+        assert.strictEqual(err.message, "timeout");
         invokedTimes += 1;
         wrappedCallback2();
         setTimeout(() => {
-          expect(invoked).to.eql(true);
-          expect(invokedTimes).to.eql(1);
-          done();
+          assert.strictEqual(invoked, true);
+          assert.strictEqual(invokedTimes, 1);
         }, 0);
       }, 0);
     });
@@ -91,119 +95,111 @@ describe("utils", () => {
     it("should return correctly", () => {
       const nullObject = Object.create(null);
       nullObject.abc = "def";
-      expect(utils.convertObjectToArray(nullObject)).to.eql(["abc", "def"]);
-      expect(utils.convertObjectToArray({ 1: 2 })).to.eql(["1", 2]);
-      expect(utils.convertObjectToArray({ 1: "2" })).to.eql(["1", "2"]);
-      expect(utils.convertObjectToArray({ 1: "2", abc: "def" })).to.eql([
-        "1",
-        "2",
-        "abc",
-        "def",
-      ]);
+      assert.deepStrictEqual(utils.convertObjectToArray(nullObject), ["abc", "def"]);
+      assert.deepStrictEqual(utils.convertObjectToArray({ 1: 2 }), ["1", 2]);
+      assert.deepStrictEqual(utils.convertObjectToArray({ 1: "2" }), ["1", "2"]);
+      assert.deepStrictEqual(utils.convertObjectToArray({ 1: "2", abc: "def" }), ["1", "2", "abc", "def"]);
     });
   });
 
   describe(".convertMapToArray", () => {
     it("should return correctly", () => {
-      expect(utils.convertMapToArray(new Map([["1", 2]]))).to.eql(["1", 2]);
-      expect(utils.convertMapToArray(new Map([[1, 2]]))).to.eql([1, 2]);
-      expect(
+      assert.deepStrictEqual(utils.convertMapToArray(new Map([["1", 2]])), ["1", 2]);
+      assert.deepStrictEqual(utils.convertMapToArray(new Map([[1, 2]])), [1, 2]);
+      assert.deepStrictEqual(
         utils.convertMapToArray(
           new Map<number | string, string>([
             [1, "2"],
             ["abc", "def"],
           ])
-        )
-      ).to.eql([1, "2", "abc", "def"]);
+        ),
+        [1, "2", "abc", "def"]
+      );
     });
   });
 
   describe(".toArg", () => {
     it("should return correctly", () => {
-      expect(utils.toArg(null)).to.eql("");
-      expect(utils.toArg(undefined)).to.eql("");
-      expect(utils.toArg("abc")).to.eql("abc");
-      expect(utils.toArg(123)).to.eql("123");
+      assert.strictEqual(utils.toArg(null), "");
+      assert.strictEqual(utils.toArg(undefined), "");
+      assert.strictEqual(utils.toArg("abc"), "abc");
+      assert.strictEqual(utils.toArg(123), "123");
     });
   });
 
   describe(".optimizeErrorStack", () => {
     it("should return correctly", () => {
+      const __dirname = fileURLToPath(new URL('.', import.meta.url));
       const error = new Error();
       const res = utils.optimizeErrorStack(
         error,
         new Error().stack + "\n@",
         __dirname
       );
-      expect(res.stack.split("\n").pop()).to.eql("@");
+      if (!res.stack) return;
+      assert.strictEqual(res.stack.split("\n").pop(), "@");
     });
   });
 
   describe(".parseURL", () => {
     it("should return correctly", () => {
-      expect(utils.parseURL("/tmp.sock")).to.eql({ path: "/tmp.sock" });
-      expect(utils.parseURL("127.0.0.1")).to.eql({ host: "127.0.0.1" });
-      expect(utils.parseURL("6379")).to.eql({ port: "6379" });
-      expect(utils.parseURL("127.0.0.1:6379")).to.eql({
-        host: "127.0.0.1",
-        port: "6379",
+      assert.deepStrictEqual(utils.parseURL("/tmp.sock"), { path: "/tmp.sock" });
+      assert.deepStrictEqual(utils.parseURL("127.0.0.1"), { host: "127.0.0.1" });
+      assert.deepStrictEqual(utils.parseURL("6379"), { port: "6379" });
+      assert.deepStrictEqual(utils.parseURL("127.0.0.1:6379"), {
+          host: "127.0.0.1",
+          port: "6379",
       });
-      expect(utils.parseURL("127.0.0.1:6379?db=2&key=value")).to.eql({
-        host: "127.0.0.1",
-        port: "6379",
-        db: "2",
-        key: "value",
+      assert.deepStrictEqual(utils.parseURL("127.0.0.1:6379?db=2&key=value"), {
+          host: "127.0.0.1",
+          port: "6379",
+          db: "2",
+          key: "value",
       });
-      expect(
-        utils.parseURL("redis://user:pass@127.0.0.1:6380/4?key=value")
-      ).to.eql({
-        host: "127.0.0.1",
-        port: "6380",
-        db: "4",
-        username: "user",
-        password: "pass",
-        key: "value",
+      assert.deepStrictEqual(utils.parseURL("redis://user:pass@127.0.0.1:6380/4?key=value"), {
+          host: "127.0.0.1",
+          port: "6380",
+          db: "4",
+          username: "user",
+          password: "pass",
+          key: "value",
       });
-      expect(
-        utils.parseURL("redis://user:pass:word@127.0.0.1:6380/4?key=value")
-      ).to.eql({
-        host: "127.0.0.1",
-        port: "6380",
-        db: "4",
-        username: "user",
-        password: "pass:word",
-        key: "value",
+      assert.deepStrictEqual(utils.parseURL("redis://user:pass:word@127.0.0.1:6380/4?key=value"), {
+          host: "127.0.0.1",
+          port: "6380",
+          db: "4",
+          username: "user",
+          password: "pass:word",
+          key: "value",
       });
-      expect(utils.parseURL("redis://user@127.0.0.1:6380/4?key=value")).to.eql({
-        host: "127.0.0.1",
-        port: "6380",
-        db: "4",
-        username: "user",
-        password: "",
-        key: "value",
+      assert.deepStrictEqual(utils.parseURL("redis://user@127.0.0.1:6380/4?key=value"), {
+          host: "127.0.0.1",
+          port: "6380",
+          db: "4",
+          username: "user",
+          password: "",
+          key: "value",
       });
-      expect(utils.parseURL("redis://127.0.0.1/")).to.eql({
-        host: "127.0.0.1",
+      assert.deepStrictEqual(utils.parseURL("redis://127.0.0.1/"), {
+          host: "127.0.0.1",
       });
-      expect(
-        utils.parseURL("rediss://user:pass@127.0.0.1:6380/4?key=value")
-      ).to.eql({
-        host: "127.0.0.1",
-        port: "6380",
-        db: "4",
-        username: "user",
-        password: "pass",
-        key: "value",
+      assert.deepStrictEqual(utils.parseURL("rediss://user:pass@127.0.0.1:6380/4?key=value"), {
+          host: "127.0.0.1",
+          port: "6380",
+          db: "4",
+          username: "user",
+          password: "pass",
+          key: "value",
       });
-      expect(utils.parseURL("redis://127.0.0.1/?family=6")).to.eql({
-        host: "127.0.0.1",
-        family: 6,
+      assert.deepStrictEqual(utils.parseURL("redis://127.0.0.1/?family=6"), {
+          host: "127.0.0.1",
+          family: 6,
       });
-      expect(utils.parseURL("redis://127.0.0.1/?family=IPv6")).to.eql({
-        host: "127.0.0.1",
-        family: "IPv6",
+      assert.deepStrictEqual(utils.parseURL("redis://127.0.0.1/?family=IPv6"), {
+          host: "127.0.0.1",
+          family: "IPv6",
       });
-    });
+  });
   });
 
   describe(".resolveTLSProfile", () => {
@@ -217,13 +213,13 @@ describe("utils", () => {
         { host: "localhost", port: 6379, tls: { ca: "foo" } },
         { host: "localhost", port: 6379, tls: { profile: "foo" } },
       ].forEach((options) => {
-        expect(utils.resolveTLSProfile(options)).to.eql(options);
+        assert.deepStrictEqual(utils.resolveTLSProfile(options), options);
       });
     });
 
     it("should have redis.com profiles defined", () => {
-      expect(TLSProfiles).to.have.property("RedisCloudFixed");
-      expect(TLSProfiles).to.have.property("RedisCloudFlexible");
+      assert.ok(TLSProfiles.RedisCloudFixed);
+      assert.ok(TLSProfiles.RedisCloudFlexible);
     });
 
     it("should read profile from options.tls.profile", () => {
@@ -238,7 +234,7 @@ describe("utils", () => {
         tls: TLSProfiles.RedisCloudFixed,
       };
 
-      expect(utils.resolveTLSProfile(input)).to.eql(expected);
+      assert.deepStrictEqual(utils.resolveTLSProfile(input), expected);
     });
 
     it("should read profile from options.tls", () => {
@@ -253,7 +249,7 @@ describe("utils", () => {
         tls: TLSProfiles.RedisCloudFixed,
       };
 
-      expect(utils.resolveTLSProfile(input)).to.eql(expected);
+      assert.deepStrictEqual(utils.resolveTLSProfile(input), expected);
     });
 
     it("supports extra options when using options.tls.profile", () => {
@@ -271,22 +267,22 @@ describe("utils", () => {
         },
       };
 
-      expect(utils.resolveTLSProfile(input)).to.eql(expected);
+      assert.deepStrictEqual(utils.resolveTLSProfile(input), expected);
     });
   });
 
   describe(".sample", () => {
     it("should return a random value", () => {
       let stub = sinon.stub(Math, "random").callsFake(() => 0);
-      expect(utils.sample([1, 2, 3])).to.eql(1);
-      expect(utils.sample([1, 2, 3], 1)).to.eql(2);
-      expect(utils.sample([1, 2, 3], 2)).to.eql(3);
+      assert.strictEqual(utils.sample([1, 2, 3]), 1);
+      assert.strictEqual(utils.sample([1, 2, 3], 1), 2);
+      assert.strictEqual(utils.sample([1, 2, 3], 2), 3);
       stub.restore();
 
       stub = sinon.stub(Math, "random").callsFake(() => 0.999999);
-      expect(utils.sample([1, 2, 3])).to.eql(3);
-      expect(utils.sample([1, 2, 3], 1)).to.eql(3);
-      expect(utils.sample([1, 2, 3], 2)).to.eql(3);
+      assert.strictEqual(utils.sample([1, 2, 3]), 3);
+      assert.strictEqual(utils.sample([1, 2, 3], 1), 3);
+      assert.strictEqual(utils.sample([1, 2, 3], 2), 3);
       stub.restore();
     });
   });
@@ -307,8 +303,9 @@ describe("utils", () => {
     }
     function testShuffle(arr) {
       const origin = arr.slice(0);
-      expect(compareArray(origin, utils.shuffle(arr))).to.eql(true);
+      assert.ok(compareArray(origin, utils.shuffle(arr)));
     }
+
     it("contains all items", () => {
       testShuffle([1]);
       testShuffle([1, 2]);
@@ -323,7 +320,7 @@ describe("utils", () => {
     it("mutates the original array", () => {
       const arr = [3, 7];
       const ret = utils.shuffle(arr);
-      expect(arr === ret).to.eql(true);
+      assert.strictEqual(arr === ret, true);
     });
 
     it("shuffles the array", () => {

@@ -1,10 +1,10 @@
-import { NetStream, CommandItem, Respondable } from "./types";
 import Deque = require("denque");
-import { EventEmitter } from "events";
-import Command from "./Command";
-import { Debug } from "./utils";
+import { EventEmitter } from "node:events";
 import * as RedisParser from "redis-parser";
-import SubscriptionSet from "./SubscriptionSet";
+import Command from "./Command.ts";
+import { Debug } from "./utils/index.ts";
+import SubscriptionSet from "./SubscriptionSet.ts";
+import type { NetStream, CommandItem, Respondable } from "./types.ts";
 
 const debug = Debug("dataHandler");
 

@@ -1,13 +1,13 @@
-exports = module.exports = require("./Redis").default;
+exports = module.exports = require("./Redis.ts").default;
 
-export { default } from "./Redis";
-export { default as Redis } from "./Redis";
-export { default as Cluster } from "./cluster";
+export { default } from "./Redis.ts";
+export { default as Redis } from "./Redis.ts";
+export { default as Cluster } from "./cluster/index.ts";
 
 /**
  * @ignore
  */
-export { default as Command } from "./Command";
+export { default as Command } from "./Command.ts";
 
 /**
  * @ignore
@@ -16,22 +16,22 @@ export {
   default as RedisCommander,
   Result,
   ClientContext,
-} from "./utils/RedisCommander";
+} from "./utils/RedisCommander.ts";
 
 /**
  * @ignore
  */
-export { default as ScanStream } from "./ScanStream";
+export { default as ScanStream } from "./ScanStream.ts";
 
 /**
  * @ignore
  */
-export { default as Pipeline } from "./Pipeline";
+export { default as Pipeline } from "./Pipeline.ts";
 
 /**
  * @ignore
  */
-export { default as AbstractConnector } from "./connectors/AbstractConnector";
+export { default as AbstractConnector } from "./connectors/AbstractConnector.ts";
 
 /**
  * @ignore
@@ -39,33 +39,32 @@ export { default as AbstractConnector } from "./connectors/AbstractConnector";
 export {
   default as SentinelConnector,
   SentinelIterator,
-} from "./connectors/SentinelConnector";
+} from "./connectors/SentinelConnector/index.ts";
 
 /**
  * @ignore
  */
-export { Callback } from "./types";
+export type { Callback } from "./types.ts";
 
-// Type Exports
-export {
+export type {
   SentinelAddress,
   SentinelConnectionOptions,
 } from "./connectors/SentinelConnector";
-export { StandaloneConnectionOptions } from "./connectors/StandaloneConnector";
-export { RedisOptions, CommonRedisOptions } from "./redis/RedisOptions";
-export { ClusterNode } from "./cluster";
-export {
+export type { StandaloneConnectionOptions } from "./connectors/StandaloneConnector.ts";
+export type { RedisOptions, CommonRedisOptions } from "./redis/RedisOptions.ts";
+export type { ClusterNode } from "./cluster/index.ts";
+export type {
   ClusterOptions,
   DNSLookupFunction,
   DNSResolveSrvFunction,
   NatMap,
 } from "./cluster/ClusterOptions";
-export { NodeRole } from "./cluster/util";
+export type { NodeRole } from "./cluster/util.ts";
 export type {
   RedisKey,
   RedisValue,
   ChainableCommander,
-} from "./utils/RedisCommander";
+} from "./utils/RedisCommander.ts";
 
 // No TS typings
 export const ReplyError = require("redis-errors").ReplyError;

@@ -2,11 +2,11 @@ import { list } from "@ioredis/commands";
 import {
   executeWithAutoPipelining,
   shouldUseAutoPipelining,
-} from "../autoPipelining";
-import Command, { ArgumentType } from "../Command";
-import Script from "../Script";
-import { Callback, WriteableStream } from "../types";
-import RedisCommander, { ClientContext } from "./RedisCommander";
+} from "../autoPipelining.ts";
+import Command, { ArgumentType } from "../Command.ts";
+import Script from "../Script.ts";
+import RedisCommander, { ClientContext } from "./RedisCommander.ts";
+import type { Callback, WriteableStream } from "../types.ts";
 
 export interface CommanderOptions {
   keyPrefix?: string;

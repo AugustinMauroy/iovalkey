@@ -2,11 +2,11 @@
 
 import Deque = require("denque");
 import { AbortError } from "redis-errors";
-import Command from "../Command";
-import { MaxRetriesPerRequestError } from "../errors";
-import { CommandItem, Respondable } from "../types";
-import { Debug, noop, CONNECTION_CLOSED_ERROR_MSG } from "../utils";
-import DataHandler from "../DataHandler";
+import Command from "../Command.ts";
+import { MaxRetriesPerRequestError } from "../errors/index.ts";
+import { Debug, noop, CONNECTION_CLOSED_ERROR_MSG } from "../utils/index.ts";
+import DataHandler from "../DataHandler.ts";
+import type { CommandItem, Respondable } from "../types.ts";
 
 const debug = Debug("connection");
 

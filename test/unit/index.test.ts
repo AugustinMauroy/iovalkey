@@ -1,6 +1,7 @@
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 import * as sinon from "sinon";
-import { expect } from "chai";
-import { print } from "../../lib";
+import { print } from "../../lib/index.ts";
 
 describe("index", () => {
   describe("print()", () => {
@@ -8,7 +9,7 @@ describe("index", () => {
       const stub = sinon.stub(console, "log");
       print(new Error("err"));
       print(null, "success");
-      expect(stub.calledTwice).to.eql(true);
+      assert.strictEqual(stub.calledTwice, true);
       stub.restore();
     });
   });

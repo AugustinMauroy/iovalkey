@@ -1,9 +1,9 @@
-import { parse as urllibParse } from "url";
-import { defaults, noop } from "./lodash";
-import { Callback } from "../types";
-import Debug from "./debug";
+import { parse as urllibParse } from "node:url";
+import { defaults, noop } from "./lodash.ts";
+import type { Callback } from "../types";
+import Debug from "./debug.ts";
 
-import TLSProfiles from "../constants/TLSProfiles";
+import TLSProfiles from "../constants/TLSProfiles.ts";
 
 /**
  * Convert a buffer to string, supports buffer array

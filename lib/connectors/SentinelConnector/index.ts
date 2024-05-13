@@ -1,20 +1,20 @@
-import { EventEmitter } from "events";
-import { createConnection, TcpNetConnectOpts } from "net";
-import { NatMap } from "../../cluster/ClusterOptions";
+import { EventEmitter } from "node:events";
+import { createConnection, TcpNetConnectOpts } from "node:net";
+import { connect as createTLSConnection, ConnectionOptions } from "tls";
+import { NatMap } from "../../cluster/ClusterOptions.ts";
 import {
   CONNECTION_CLOSED_ERROR_MSG,
   packObject,
   sample,
   Debug,
-} from "../../utils";
-import { connect as createTLSConnection, ConnectionOptions } from "tls";
-import SentinelIterator from "./SentinelIterator";
-import { RedisClient, SentinelAddress, Sentinel } from "./types";
-import AbstractConnector, { ErrorEmitter } from "../AbstractConnector";
-import { NetStream } from "../../types";
-import Redis from "../../Redis";
-import { RedisOptions } from "../../redis/RedisOptions";
-import { FailoverDetector } from "./FailoverDetector";
+} from "../../utils/index.ts";
+import SentinelIterator from "./SentinelIterator.ts";
+import AbstractConnector, { ErrorEmitter } from "../AbstractConnector.ts";
+import Redis from "../../Redis.ts";
+import { RedisOptions } from "../../redis/RedisOptions.ts";
+import { FailoverDetector } from "./FailoverDetector.ts";
+import type { RedisClient, SentinelAddress, Sentinel } from "./types.ts";
+import type { NetStream } from "../../types.ts";
 
 const debug = Debug("SentinelConnector");
 
@@ -296,7 +296,6 @@ export default class SentinelConnector extends AbstractConnector {
       password: this.options.sentinelPassword || null,
       family:
         endpoint.family ||
-        // @ts-expect-error
         ("path" in this.options && this.options.path
           ? undefined
           : // @ts-expect-error

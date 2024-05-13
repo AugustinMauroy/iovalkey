@@ -1,8 +1,8 @@
-import { createConnection, IpcNetConnectOpts, TcpNetConnectOpts } from "net";
-import { connect as createTLSConnection, ConnectionOptions } from "tls";
-import { NetStream } from "../types";
-import { CONNECTION_CLOSED_ERROR_MSG } from "../utils";
-import AbstractConnector, { ErrorEmitter } from "./AbstractConnector";
+import { createConnection, IpcNetConnectOpts, TcpNetConnectOpts } from "node:net";
+import { connect as createTLSConnection, ConnectionOptions } from "node:tls";
+import { CONNECTION_CLOSED_ERROR_MSG } from "../utils/index.ts";
+import AbstractConnector, { ErrorEmitter } from "./AbstractConnector.ts";
+import type { NetStream } from "../types.ts";
 
 type TcpOptions = Pick<TcpNetConnectOpts, "port" | "host" | "family">;
 type IpcOptions = Pick<IpcNetConnectOpts, "path">;

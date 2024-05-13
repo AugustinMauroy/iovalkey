@@ -4,7 +4,7 @@
  * this file.
  */
 
-import { Callback } from "../types";
+import type { Callback } from "../types.ts";
 
 export type RedisKey = string | Buffer;
 export type RedisValue = string | Buffer | number;

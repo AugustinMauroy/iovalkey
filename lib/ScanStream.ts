@@ -1,4 +1,4 @@
-import { Readable, ReadableOptions } from "stream";
+import { Readable, ReadableOptions } from "node:stream";
 
 interface Options extends ReadableOptions {
   key?: string;

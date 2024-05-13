@@ -1,6 +1,6 @@
-import { parseURL, resolveTLSProfile } from "../utils";
-import { isIP } from "net";
-import { SrvRecord } from "dns";
+import { isIP } from "node:net";
+import { parseURL, resolveTLSProfile } from "../utils/index.ts";
+import type { SrvRecord } from "node:dns";
 
 export type NodeKey = string;
 export type NodeRole = "master" | "slave" | "all";

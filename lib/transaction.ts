@@ -1,8 +1,8 @@
-import { wrapMultiResult, noop } from "./utils";
 import asCallback from "standard-as-callback";
-import Pipeline from "./Pipeline";
-import { Callback } from "./types";
-import { ChainableCommander } from "./utils/RedisCommander";
+import { wrapMultiResult, noop } from "./utils/index.ts";
+import Pipeline from "./Pipeline.ts";
+import { ChainableCommander } from "./utils/RedisCommander.ts";
+import type { Callback } from "./types";
 
 export interface Transaction {
   pipeline(commands?: unknown[][]): ChainableCommander;

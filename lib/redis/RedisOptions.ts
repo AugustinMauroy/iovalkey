@@ -1,7 +1,7 @@
-import { CommanderOptions } from "../utils/Commander";
-import ConnectorConstructor from "../connectors/ConnectorConstructor";
-import { SentinelConnectionOptions } from "../connectors/SentinelConnector";
-import { StandaloneConnectionOptions } from "../connectors/StandaloneConnector";
+import { CommanderOptions } from "../utils/Commander.ts";
+import ConnectorConstructor from "../connectors/ConnectorConstructor.ts";
+import { SentinelConnectionOptions } from "../connectors/SentinelConnector/index.ts";
+import { StandaloneConnectionOptions } from "../connectors/StandaloneConnector.ts";
 
 export type ReconnectOnError = (err: Error) => boolean | 1 | 2;
 

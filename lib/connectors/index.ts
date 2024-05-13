@@ -1,4 +1,4 @@
-import StandaloneConnector from "./StandaloneConnector";
-import SentinelConnector from "./SentinelConnector";
+import StandaloneConnector from "./StandaloneConnector.ts";
+import SentinelConnector from "./SentinelConnector/index.ts";
 
 export { StandaloneConnector, SentinelConnector };

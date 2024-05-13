@@ -7,8 +7,8 @@ import {
   toArg,
   convertMapToArray,
   convertObjectToArray,
-} from "./utils";
-import { Callback, Respondable, CommandParameter } from "./types";
+} from "./utils/index.ts";
+import type { Callback, Respondable, CommandParameter } from "./types.ts";
 
 export type ArgumentType =
   | string

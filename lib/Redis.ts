@@ -1,37 +1,37 @@
 import { exists, hasFlag } from "@ioredis/commands";
 import { EventEmitter } from "events";
 import asCallback from "standard-as-callback";
-import Cluster from "./cluster";
-import Command from "./Command";
-import { DataHandledable, FlushQueueOptions, Condition } from "./DataHandler";
-import { StandaloneConnector } from "./connectors";
-import AbstractConnector from "./connectors/AbstractConnector";
-import SentinelConnector from "./connectors/SentinelConnector";
-import * as eventHandler from "./redis/event_handler";
+import Cluster from "./cluster/index.ts";
+import Command from "./Command.ts";
+import { DataHandledable, FlushQueueOptions, Condition } from "./DataHandler.ts";
+import { StandaloneConnector } from "./connectors/index.ts";
+import AbstractConnector from "./connectors/AbstractConnector.ts";
+import SentinelConnector from "./connectors/SentinelConnector/index.ts";
+import * as eventHandler from "./redis/event_handler.ts";
 import {
   DEFAULT_REDIS_OPTIONS,
   ReconnectOnError,
   RedisOptions,
-} from "./redis/RedisOptions";
-import ScanStream from "./ScanStream";
-import { addTransactionSupport, Transaction } from "./transaction";
-import {
+} from "./redis/RedisOptions.ts";
+import ScanStream from "./ScanStream.ts";
+import { addTransactionSupport, Transaction } from "./transaction.ts";
+import type {
   Callback,
   CommandItem,
   NetStream,
   ScanStreamOptions,
   WriteableStream,
-} from "./types";
+} from "./types.ts";
 import {
   CONNECTION_CLOSED_ERROR_MSG,
   Debug,
   isInt,
   parseURL,
   resolveTLSProfile,
-} from "./utils";
-import applyMixin from "./utils/applyMixin";
-import Commander from "./utils/Commander";
-import { defaults, noop } from "./utils/lodash";
+} from "./utils/index.ts";
+import applyMixin from "./utils/applyMixin.ts";
+import Commander from "./utils/Commander.ts";
+import { defaults, noop } from "./utils/lodash.ts";
 import Deque = require("denque");
 const debug = Debug("redis");
 

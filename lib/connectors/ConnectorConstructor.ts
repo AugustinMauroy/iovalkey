@@ -1,4 +1,4 @@
-import AbstractConnector from "./AbstractConnector";
+import AbstractConnector from "./AbstractConnector.ts";
 
 interface ConnectorConstructor {
   new (options: unknown): AbstractConnector;
